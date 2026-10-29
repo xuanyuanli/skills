@@ -144,7 +144,7 @@ def main() -> int:
             )
             return 0
         last_page = int(progress.get("last_page", 0))
-        if start <= last_page < end:
+        if (start <= last_page < end) or start == last_page + 1:
             start = last_page + 1
             resumed = True
 
