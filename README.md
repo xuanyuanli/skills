@@ -1,134 +1,72 @@
 # skills
 
-Portable [Agent Skills](https://agentskills.io) for product decisions, deep reading, document conversion and Obsidian notes.
+**中文** | [English](README.en.md)
 
-[![validate](https://github.com/xuanyuanli/skills/actions/workflows/validate.yml/badge.svg)](https://github.com/xuanyuanli/skills/actions/workflows/validate.yml)
+可移植的 [Agent Skills](https://agentskills.io)：产品决策、深度阅读、文档转换、Obsidian 笔记。
 
-One folder per skill, plain `SKILL.md` plus optional `scripts/` and `references/`. No framework, no dependencies, no lock-in — the same files work in Claude Code, Codex, GitHub Copilot, Cursor, and anything else that reads the open Agent Skills format.
+一个目录一个技能，核心是 `SKILL.md`，可选 `scripts/` 与 `references/`。无框架、无依赖、不绑定平台，Claude Code、Codex、GitHub Copilot、Cursor 通用。
 
-[中文说明](README.zh-CN.md)
+## 技能
 
-## Skills
+| 技能 | 作用 |
+|---|---|
+| [product-council](skills/product-council/SKILL.md) | 用四套心智模型独立评审产品决策，收敛出共识、分歧与可执行结论 |
+| [wan-weigang-reading](skills/wan-weigang-reading/SKILL.md) | 万维钢式精读：一句话总纲、论证拆解、心智模型、边界 |
+| [pdf-to-markdown](skills/pdf-to-markdown/SKILL.md) | PDF/EPUB/DOCX 转 Markdown，扫描件 OCR、测速、断点续跑 |
+| [obsidian-reading-notes](skills/obsidian-reading-notes/SKILL.md) | Obsidian 读书笔记规范、合并与格式检查 |
 
-| Skill | What it does | Triggers on |
-|---|---|---|
-| [product-council](skills/product-council/SKILL.md) | Reviews one product decision through four independent mental models (Yu Jun, Zhang Xiaolong, Steve Jobs, Pony Ma), then converges on consensus, dissent, and an actionable decision | 产品评审, 这个功能该不该做, 产品决策拆解 |
-| [wan-weigang-reading](skills/wan-weigang-reading/SKILL.md) | Reads a book or concept in Wan Weigang's style: one-sentence thesis, argument chains, mental models, counter-intuitive points, boundaries | 精读, 万维钢风格, 强力研读, 展开注释 |
-| [pdf-to-markdown](skills/pdf-to-markdown/SKILL.md) | Converts PDF/EPUB/DOCX to clean Markdown, with scanned-page OCR, speed probing, resumable full-book runs and post-OCR cleanup | 把 PDF 转成 md, 扫描件 OCR, 原书转 Markdown |
-| [obsidian-reading-notes](skills/obsidian-reading-notes/SKILL.md) | Formats and merges Obsidian reading notes: heading levels, separators, bold, attachments, merge candidates — plus a linter | 整理读书笔记, 合并笔记, 检查笔记格式 |
+## 安装
 
-The Chinese skills are optimized versions of a personal Cursor setup; `obsidian-reading-notes` began life as an always-on Cursor rule (`reading-notes.mdc`) and `pdf-to-markdown` as a glob-triggered rule, both converted to on-demand skills.
-
-## Install
-
-Requires Node.js 18+ (only for the installer; the skills themselves are just files).
+需要 Node.js 18+（仅安装器需要，技能本身只是文件）。
 
 ```bash
 git clone https://github.com/xuanyuanli/skills.git
 cd skills
 
-node scripts/install.mjs --list                 # what is available
-node scripts/install.mjs --tool all             # into this project
-node scripts/install.mjs --tool all --scope global   # into your home directory
+node scripts/install.mjs --list                      # 查看技能
+node scripts/install.mjs --tool all                  # 安装到当前项目
+node scripts/install.mjs --tool all --scope global   # 安装到用户目录
 ```
 
-`--tool all` installs `claude`, `codex` and `copilot` layouts. That is enough for four tools, because Cursor also discovers `.agents/skills/`.
+`--tool all` 安装 `claude`、`codex`、`copilot` 三套目录，已覆盖四个工具（Cursor 也读 `.agents/skills/`）。
 
-Install into another project or a single tool:
+单工具、指定项目、升级与卸载：
 
 ```bash
 node scripts/install.mjs --tool cursor --dest ../my-app
 node scripts/install.mjs --tool copilot --skill pdf-to-markdown
-node scripts/install.mjs --tool claude --scope global --force
-node scripts/install.mjs --tool codex --link          # symlink while editing
+node scripts/install.mjs --tool all --force          # 覆盖已有副本
+node scripts/install.mjs --tool all --uninstall      # 只删含合法 SKILL.md 的目录
 ```
 
-Preview, update, remove:
+不支持原生 skills 的工具：用 `--with-agents-md` 生成 `AGENTS.md` 索引，或 `--tool generic --out <dir>` 指定目录。
 
-```bash
-node scripts/install.mjs --tool all --dry-run
-node scripts/install.mjs --tool all --force          # overwrite existing copies
-node scripts/install.mjs --tool all --uninstall      # only removes dirs with a valid SKILL.md
-```
+## 工具目录
 
-Tools without native skill discovery can get an `AGENTS.md` index instead:
-
-```bash
-node scripts/install.mjs --tool all --with-agents-md
-node scripts/install.mjs --tool generic --out .windsurf/skills --dest ../my-app
-```
-
-## Where each tool looks
-
-| Tool | Project | Personal |
+| 工具 | 项目级 | 用户级 |
 |---|---|---|
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | OpenAI Codex | `.agents/skills/` | `~/.agents/skills/` |
-| GitHub Copilot (VS Code, CLI) | `.github/skills/` | `~/.copilot/skills/` |
+| GitHub Copilot | `.github/skills/` | `~/.copilot/skills/` |
 | Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
 
-Cursor additionally reads `.agents/skills/` and `.claude/skills/`. VS Code's local agent reads `.github/skills/`, `.claude/skills/` and `.agents/skills/`.
+调用：输入 `/技能名`，或让 agent 根据 `description` 自动选择。
 
-Invoke a skill with `/skill-name` (Claude Code, Cursor, Copilot) or let the agent pick it from the `description`. `wan-weigang-reading` ships with `disable-model-invocation: true`, so it only runs when you invoke it explicitly — remove that line if you want automatic triggering.
-
-## Manual install
-
-Copy the skill folder, not just the file:
-
-```bash
-cp -r skills/product-council ~/.claude/skills/
-```
-
-The directory name must match the `name` field. Supporting files (`scripts/`, `references/`) are referenced relatively, so keep the folder intact.
-
-## Updates
-
-```bash
-git pull
-node scripts/install.mjs --tool all --force
-```
-
-`--force` replaces installed copies. Without it, existing directories are skipped so local edits are never silently overwritten.
-
-## Repository layout
-
-```
-skills/
-├── skills/
-│   ├── product-council/
-│   │   ├── SKILL.md
-│   │   └── references/{frameworks,example}.md
-│   ├── wan-weigang-reading/
-│   │   ├── SKILL.md
-│   │   └── references/example.md
-│   ├── pdf-to-markdown/
-│   │   ├── SKILL.md
-│   │   └── scripts/{_runtime,probe,convert}.py
-│   └── obsidian-reading-notes/
-│       ├── SKILL.md
-│       └── scripts/lint_notes.py
-├── scripts/
-│   ├── install.mjs     # cross-tool installer
-│   └── validate.mjs    # spec + link + frontmatter checks
-└── .github/workflows/validate.yml
-```
-
-## Validate
+## 校验
 
 ```bash
 node scripts/validate.mjs
 ```
 
-Checks that every `SKILL.md` has valid frontmatter, a `name` matching its directory, a description within 1024 characters, working relative links, LF line endings, and no unknown frontmatter keys. CI runs the same command on every push.
+检查 frontmatter、命名、描述长度、相对链接与换行；CI 每次 push 自动运行。
 
-## Notes
+## 说明
 
-- Descriptions and bodies are in Chinese; the format is English-compatible.
-- Skills load on demand. If a former `alwaysApply` rule must stay always-on, keep a one-line rule pointing at the skill, or copy its key points into `AGENTS.md` / `.github/copilot-instructions.md`.
-- Skills are instructions, not code you run blindly. `pdf-to-markdown` calls a Python OCR package and `obsidian-reading-notes` can rewrite Markdown with `--fix`; review before using on important files.
-- `--uninstall` refuses to delete anything that does not contain a matching `SKILL.md`.
-- MIT licensed.
+- 技能正文为中文，格式与英文环境兼容。
+- 规则转技能后按需加载；需要常驻时保留一条指向技能的短规则即可。
+- `pdf-to-markdown` 会调用 Python OCR 包；`obsidian-reading-notes --fix` 会改写 Markdown，重要文件先备份。
+- MIT 协议。
 
-## License
+## 多语言
 
-[MIT](LICENSE)
+默认中文（`README.md`），英文见 [`README.en.md`](README.en.md)。新增语言：添加 `README.<lang>.md`，并在顶部语言栏登记。
