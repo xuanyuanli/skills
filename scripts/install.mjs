@@ -200,7 +200,15 @@ async function installOne(skill, targetDir, opts) {
       const type = process.platform === "win32" ? "junction" : "dir";
       await fs.symlink(skill.dir, destination, type);
     } else {
-      await fs.cp(skill.dir, destination, { recursive: true });
+      await fs.cp(skill.dir, destination, {
+        recursive: true,
+        filter: (source) => {
+          const base = path.basename(source);
+          if (base === "__pycache__" || base === "node_modules" || base === ".git") return false;
+          if (/\.(pyc|pyo)$/i.test(base) || base === ".DS_Store") return false;
+          return true;
+        },
+      });
     }
   }
   return { status: opts.link ? "linked" : "copied", destination };
