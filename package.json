@@ -1,0 +1,19 @@
+{
+  "name": "@xuanyuanli/skills",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portable Agent Skills for product review, deep reading, PDF-to-Markdown and Obsidian notes.",
+  "type": "module",
+  "bin": {
+    "skills": "scripts/install.mjs"
+  },
+  "scripts": {
+    "list": "node scripts/install.mjs --list",
+    "validate": "node scripts/validate.mjs",
+    "test": "node scripts/validate.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
