@@ -2,7 +2,7 @@
 
 **中文** | [English](README.en.md)
 
-可移植的 [Agent Skills](https://agentskills.io)：产品决策、深度阅读、文档转换、Obsidian 笔记。
+可移植的 [Agent Skills](https://agentskills.io)：产品决策、深度阅读、文档转换、Obsidian 笔记、git 周报。
 
 一个目录一个技能，核心是 `SKILL.md`，可选 `scripts/` 与 `references/`。无框架、无依赖、不绑定平台，Claude Code、Codex、GitHub Copilot、Cursor 通用。
 
@@ -14,6 +14,7 @@
 | [wan-weigang-reading](skills/wan-weigang-reading/SKILL.md) | 万维钢式精读：一句话总纲、论证拆解、心智模型、边界 |
 | [pdf-to-markdown](skills/pdf-to-markdown/SKILL.md) | PDF/EPUB/DOCX 转 Markdown，扫描件 OCR、测速、断点续跑 |
 | [obsidian-reading-notes](skills/obsidian-reading-notes/SKILL.md) | Obsidian 读书笔记规范、合并与格式检查 |
+| [weekly-report](skills/weekly-report/SKILL.md) | 按价值排序的 git 周报：上周六至今，大功能在前、Bug 在后 |
 
 ## 安装
 

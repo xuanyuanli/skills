@@ -2,7 +2,7 @@
   "name": "@xuanyuanli/skills",
   "version": "1.0.0",
   "private": true,
-  "description": "Portable Agent Skills for product review, deep reading, PDF-to-Markdown and Obsidian notes.",
+  "description": "Portable Agent Skills: product review, deep reading, PDF to Markdown, Obsidian notes and git weekly reports.",
   "type": "module",
   "bin": {
     "skills": "scripts/install.mjs"

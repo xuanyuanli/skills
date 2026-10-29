@@ -2,7 +2,7 @@
 
 [中文](README.md) | **English**
 
-Portable [Agent Skills](https://agentskills.io) for product decisions, deep reading, document conversion and Obsidian notes.
+Portable [Agent Skills](https://agentskills.io) for product decisions, deep reading, document conversion, Obsidian notes and git weekly reports.
 
 One folder per skill: a `SKILL.md` plus optional `scripts/` and `references/`. No framework, no dependencies, no lock-in — works in Claude Code, Codex, GitHub Copilot and Cursor.
 
@@ -14,6 +14,7 @@ One folder per skill: a `SKILL.md` plus optional `scripts/` and `references/`. N
 | [wan-weigang-reading](skills/wan-weigang-reading/SKILL.md) | Deep reading in Wan Weigang's style: thesis, argument chains, mental models, boundaries |
 | [pdf-to-markdown](skills/pdf-to-markdown/SKILL.md) | PDF/EPUB/DOCX to Markdown, with scanned-page OCR, speed probing and resumable runs |
 | [obsidian-reading-notes](skills/obsidian-reading-notes/SKILL.md) | Obsidian reading-note conventions, merging and format checks |
+| [weekly-report](skills/weekly-report/SKILL.md) | Value-ordered git weekly report: last Saturday to now, features first, bugs last |
 
 ## Install
 
